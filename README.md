@@ -27,8 +27,10 @@
 
 ##new式　- p.35
 * オブジェクトを明示的に生成する場合は new 式を用いる
-* new Date();
-* new Object();
+``` javascript
+new Date();
+new Object();
+```
 
 ##配列 - p.37
 * 順序を持った値のまとまりを Array クラスのインスタンスとして定義し、演算や取り出しが可能
@@ -56,26 +58,37 @@ var array = [1,2,3,4,5];
 
 ##文字列と数値の変換 - p.63
 * 以下の関数を使うことにより、文字列を数値化できる
-* Number
-* parseInt, parseFloat
+``` javascript
+Number();
+parseInt();
+parseFloat();
+```
 * 関数を使わずに、以下のように文字列値を数値化することもできる
-* '123' - 0
-* +'123'
+``` javascript
+'123' - 0;
++'123';
+```
 * 以下の関数を使うことにより、数値を文字列に変換できる
-* String
+``` javascript
+String();
+```
 * 関数を使わずに、以下のように数値を文字列化することもできる
-* '123'+''
+``` javascript
+'123'+'';
+```
 
 ##boolean型 - p.57
 * true と false で値の真偽値を判定する型をいう
 ###boolean型の型変換 - p.67
 * 各種演算子を用いて比較ができる。
 * 以下は、javascriptの公理として false になる
-* 0
-* NaN
-* null
-* undefined
-* ''
+``` javascript
+0,
+NaN,
+null,
+undefined,
+''
+```
 * オブジェクト型は、すでに定義され具体的な中身を持つので、常に true となる
 
 ##null型、undefined型 - p.60
