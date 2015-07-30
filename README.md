@@ -94,3 +94,139 @@ undefined,
 ##null型、undefined型 - p.60
 * 定義だけされ、具体的な中身がない値はnull型を返す
 * そもそも定義されていないものについてはundefined型を返す
+
+##制御文 - p.76
+ - 条件分岐
+   - if-else文
+   - switch-case文
+ - 繰り返し
+   - while文
+   - do-while文
+   - for文
+   - for in文
+ - ジャンプ
+ - 例外
+ - その他
+   - withは基本的には使用しない
+
+##変数とオブジェクト - p.109
+ - 変数の宣言
+   - 何も代入していない値はundefined
+ - 変数の参照
+   - 変数にオブジェクトを代入するとオブジェクトの参照が代入
+   - オブジェクトは実態（コピー）ではなく参照
+``` javascript
+    //$b2がtrueなら$b2を使用しなければ{}を代入
+    var $b2 = $b2 || {};
+```
+###変数とプロパティ - p.114
+ - グローバル変数
+   - 関数の外で宣言
+   - グローバルオブジェクトのプロパティ
+ - ローカル変数
+   - 関数内で宣言
+   - 関数が呼ばれてから抜けるまで
+### オブジェクト - p.117
+ - JavaScriptのオブジェクトはプロパティの集合
+ - オブジェクト指向
+   - カプセル化
+   - 継承
+   - ポリモーフィズム
+ -  オブジェクトリテラル
+ - シングルトンパターン
+   - インスタンスを1つに限定
+ - 多値データ
+ - コンストラクタ代わりの関数
+``` javascript
+    //多値データの表現にオブジェクトリテラルが使える
+    hoge({x:1, y:2, z:3});
+
+    //コンストラクタ代わりの関数
+    function constA(name) {
+      return {
+        name: name,
+          job: 'engineer'
+        }
+      }
+    var a = constA('hoge');
+```
+### コンストラクタとnew式 - p.121
+  - コンストラクタはオブジェクト生成の為に使う関数
+     - コンストラクタは普通の関数宣言と同じ
+     - new式で呼び出す
+     - 呼び出すnew式は新しく生成されたオブジェクト参照
+     - new式で呼び出されたコンストラクタ内のthisは新しく生成されたオブジェクトを参照
+``` javascript
+    //コンストラクタとnew
+    var Human = function(name){
+      this._private = 'himitu'; //'_'は 触らないでね！っていうルールとする
+      this.name = name;
+      this.greeting = function(){
+        console.log('hellow');
+      }
+    }
+    var test = new Human('hoge'); //this は今後作られるものをさす。newをはずすとthisがグローバルになる。
+    console.log(test.name);  //hoge
+    test.greeting(); //hellow
+
+    test.name = 'hogehoge'; //変えれてしまう
+    test.address = '埼玉県';
+    test['address'] = '埼玉県'; //上記と同じ
+```
+### this参照 - p.134
+ - トップレベルコード（関数外）のthisはグローバルオブジェクトを参照
+ - 関数内のthis参照は関数の呼び出し方法で異なる
+### applyとcall - p.136
+ - 呼び出したthis参照を指定した任意のオブジェクト参照にできる
+ - applyとcallの違いは第1引数以外の引数の渡し方
+   - applyは配列で渡す
+   - callは引数形式のままで渡す
+### プロトタイプ継承 - p.137
+``` javascript
+	//クラス定義相当（コンストラクタ）
+	function MyClass(x, y){
+		his.x = x;
+		this.y = y;
+	}
+
+	//プロトタイプ継承
+	MyClass.prototype.show = function() {
+		console.log(this.x, this.y);
+	}
+
+	//コンストラクタ呼び出し（インスタンス生成）
+	var obj = new MyClass(3, 2);
+	//メソッド呼び出し
+	obj.show(); //3 2
+```
+ - プロトタイプチェーン
+   - すべての関数（オブジェクト）はprototypeという名のプロパティを持つ
+   - すべてのオブジェクトは、オブジェクト生成に使ったコンストラクタのprototypeオブジェクトへのリンクを持つ
+オブジェクトのプロパティ読み込みは次の順にプロパティを探す。
+ 1. オブジェクト自身のプロパティ
+ 2. 暗黙リンクの参照オブジェクト（コンストラクタのprototypeオブジェクト）のプロパティ
+ 3. 2.のオブジェクトの暗黙リンクの参照オブジェクトのプロパティ
+ 4. 3.の動作を検索が終わるまで続ける。
+``` javascript
+	//コンストラクタ
+	function MyClass() {
+		this.x = 'x'
+	}
+
+	//コンストラクタ呼び出し（インスタンス生成）
+	var obj = new MyClass();
+
+	//objのプロパティxにアクセス
+	console.log(obj.x); // x
+
+	//objのプロパティzにアクセス
+	//プロパティzは無い
+	console.log(obj.z); //undefined
+
+	//＊関数オブジェクト（コンストラクタ）は暗黙にprototypeプロパティを持つ！！
+	//コンストラクタのprototypeオブジェクトにプロパティ（z）を追加
+	MyClass.prototype.z = 'z';
+
+	//obj.z はコンストラクタのprototypeオブジェクトのプロパティにアクセス
+	console.log(obj.z); // z
+```
